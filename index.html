@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi Ruta en Derecho</title>
+<meta name="description" content="Avance de carrera y ruta óptima de matrícula · Derecho, Universidad Fidélitas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b17a3; --navy-2:#070f72; --yellow:#ffd200; --cyan:#19b5e6;
+  --bg:#eef0f7; --surface:#ffffff; --ink:#0d1440; --muted:#5b6285; --line:#d7dbec;
+  --ok:#12a150; --ok-bg:#e4f6eb; --cur:#d99a00; --cur-bg:#fff6d6;
+  --pend:#9aa0bd; --next-bg:#e7eaff; --edge:#b9bfdc; --hl:#0b17a3;
+  --shadow:0 1px 2px rgba(13,20,64,.06),0 6px 18px rgba(13,20,64,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0d1f; --surface:#141a35; --ink:#e9ecff; --muted:#9ca3c8; --line:#283058;
+    --ok:#3fd17f; --ok-bg:#10301f; --cur:#ffc83a; --cur-bg:#352a07;
+    --pend:#5d6590; --next-bg:#1d2577; --edge:#37406e; --hl:#ffd200;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* Header */
+header{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#fff;padding:28px 0 84px}
+.tag{display:inline-block;background:var(--yellow);color:var(--navy-2);font:700 13px/1 Barlow Condensed,sans-serif;letter-spacing:.06em;padding:6px 10px;text-transform:uppercase}
+h1{font:800 clamp(52px,12vw,92px)/.9 Barlow Condensed,sans-serif;margin:10px 0 6px;letter-spacing:-.01em;text-shadow:3px 3px 0 var(--cyan)}
+.sub{opacity:.85;margin:0}
+
+/* Stats */
+.stats{margin-top:-60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.stat .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.stat .v{font:800 34px/1.05 Barlow Condensed,sans-serif;margin-top:4px}
+.stat .s{font-size:12.5px;color:var(--muted)}
+.bars{background:var(--surface);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-top:12px;display:grid;gap:14px}
+.bar-h{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}
+.bar-h span:last-child{color:var(--muted);font-weight:500}
+.bar{height:12px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width .5s}
+.bar .a{background:var(--ok)} .bar .c{background:var(--cur)}
+
+/* Sections */
+section{margin-top:28px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:12px}
+h2{font:800 30px/1 Barlow Condensed,sans-serif;margin:0;color:var(--ink)}
+h2 em{font-style:normal;color:var(--navy)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) h2 em{color:var(--yellow)}}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--navy);color:#fff}
+
+/* Next enrollment */
+.next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pick{background:var(--surface);border-radius:14px;padding:16px;box-shadow:var(--shadow);border-top:5px solid var(--yellow);text-align:left;border-left:0;border-right:0;border-bottom:0}
+.pick .n{font:800 13px/1 Barlow Condensed,sans-serif;color:var(--navy);letter-spacing:.06em}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pick .n{color:var(--yellow)}}
+.pick h3{margin:6px 0 4px;font-size:18px;line-height:1.25}
+.pick .lv{font-size:12.5px;color:var(--muted)}
+.why{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:13px}
+.why li::before{content:"→ ";color:var(--cyan);font-weight:700}
+.alts{margin-top:12px;font-size:13px;color:var(--muted)}
+.alts .chips{margin-top:6px}
+
+/* Bracket */
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.scroller{overflow-x:auto;background:var(--surface);border-radius:16px;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.bracket{position:relative;display:flex;align-items:stretch;gap:46px;padding:18px 22px 22px;width:max-content;min-width:100%}
+.bracket svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.col{display:flex;flex-direction:column;width:172px;flex:none;position:relative;z-index:1}
+.col-h{font:700 15px/1.1 Barlow Condensed,sans-serif;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+.col-s{font-size:11.5px;color:var(--muted);margin-bottom:12px;font-weight:600}
+.col.k-next .col-s{color:var(--navy);}
+.col.k-next .col-h::after{content:" ★";color:var(--yellow)}
+.col-b{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.card{display:flex;flex-direction:column;gap:3px;text-align:left;width:100%;border:1px solid var(--line);border-left:5px solid var(--pend);background:var(--surface);border-radius:10px;padding:9px 10px;transition:opacity .2s,transform .15s,box-shadow .2s}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.card .code{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.03em}
+.card .nm{font-size:13px;font-weight:600;line-height:1.25}
+.card .badge{font-size:11px;font-weight:700;color:var(--muted)}
+.card.s-A{background:var(--ok-bg);border-left-color:var(--ok)} .card.s-A .badge{color:var(--ok)}
+.card.s-C{background:var(--cur-bg);border-left-color:var(--cur)} .card.s-C .badge{color:var(--cur)}
+.card.is-next{background:var(--next-bg);border:2px solid var(--navy);border-left:5px solid var(--yellow)}
+.card.is-next .badge{color:var(--navy)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .card.is-next{border-color:var(--yellow)} :root:not([data-theme="light"]) .card.is-next .badge{color:var(--yellow)}}
+.card.sel{outline:3px solid var(--yellow);outline-offset:2px}
+.bracket.has-sel .card:not(.in),.bracket.has-sel .grad:not(.in){opacity:.25}
+.grad{align-self:center;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;width:120px;padding:14px 10px;border-radius:16px;background:var(--navy);color:#fff;box-shadow:var(--shadow)}
+.grad svg{position:static;width:30px;height:30px}
+.grad b{font:800 17px/1 Barlow Condensed,sans-serif;text-transform:uppercase}
+.grad small{font-size:11px;opacity:.85}
+path.e{fill:none;stroke:var(--edge);stroke-width:1.6;transition:opacity .2s,stroke .2s}
+path.e.done{stroke:var(--ok);opacity:.45}
+path.e.hl{stroke:var(--hl);stroke-width:2.8;opacity:1}
+.bracket.has-sel path.e:not(.hl){opacity:.08}
+.hint{font-size:12.5px;color:var(--muted);margin-top:8px}
+
+/* Requirements & actions */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.panel{background:var(--surface);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.panel h3{margin:0 0 10px;font:800 20px/1 Barlow Condensed,sans-serif;text-transform:uppercase}
+.check{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.check:first-of-type{border-top:0}
+.check input{width:18px;height:18px;margin-top:1px;accent-color:var(--navy)}
+.check small{display:block;color:var(--muted);font-size:12px}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:700;font-size:14px;background:var(--navy);color:#fff;width:100%;margin-top:8px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.muted{color:var(--muted);font-size:13px}
+footer{margin:36px 0 40px;font-size:12.5px;color:var(--muted)}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px;font-size:12.5px;font-weight:600}
+.chip.s-A{background:var(--ok-bg);border-color:transparent;color:var(--ok)}
+.chip.s-C{background:var(--cur-bg);border-color:transparent;color:var(--cur)}
+
+/* Sheet */
+.veil{position:fixed;inset:0;background:rgba(5,8,30,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.veil[hidden]{display:none}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:82vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px 18px 26px;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sh-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sh-lv{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sheet h3{margin:4px 0 10px;font-size:20px;line-height:1.2}
+.sheet h4{margin:16px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.x{border:0;background:var(--bg);width:34px;height:34px;border-radius:50%;flex:none}
+.note{font-size:13px;color:var(--muted);background:var(--bg);border-radius:10px;padding:8px 10px;margin:0 0 12px}
+.warn{font-size:13px;color:#b45309;margin-top:8px}
+.grade{display:flex;align-items:center;gap:8px;margin-top:12px;font-weight:600;font-size:14px}
+.grade input{width:90px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.info{margin-top:12px;font-size:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="tag">Bachillerato y Licenciatura en</span>
+    <h1>DERECHO</h1>
+    <p class="sub">Mi avance y ruta de matrícula · Universidad Fidélitas</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="stats" id="stats"></div>
+  <div class="bars" id="bars"></div>
+
+  <section>
+    <div class="sec-h">
+      <h2 id="next-title">Tu mejor matrícula</h2>
+      <div class="seg" id="strat">
+        <button data-strat="critica">Ruta más corta</button>
+        <button data-strat="plan">Orden del plan</button>
+      </div>
+    </div>
+    <div class="next-grid" id="next"></div>
+    <div class="alts" id="alts"></div>
+  </section>
+
+  <section>
+    <div class="sec-h">
+      <h2>Mapa en <em>llaves</em></h2>
+      <div class="seg" id="views">
+        <button data-view="ruta">Ruta proyectada</button>
+        <button data-view="plan">Plan oficial</button>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--ok)"></i>Aprobada</span>
+      <span><i style="background:var(--cur)"></i>En curso</span>
+      <span><i style="background:var(--navy);outline:2px solid var(--yellow)"></i>Próxima matrícula</span>
+      <span><i style="background:var(--pend)"></i>Pendiente</span>
+    </div>
+    <div class="scroller" id="scroller">
+      <div class="bracket" id="bracket"></div>
+    </div>
+    <p class="hint">Tocá una materia para ver su cadena de requisitos y cambiar su estado. Deslizá horizontalmente para recorrer la ruta.</p>
+  </section>
+
+  <section>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Requisitos de graduación</h3>
+        <label class="check"><input type="checkbox" data-req="tcu"><span>Trabajo Comunal Universitario<small>150 horas · requisito del Bachillerato</small></span></label>
+        <label class="check"><input type="checkbox" data-req="eng"><span>Nivel básico de inglés<small>Certificado o prueba en la Academia de Inglés</small></span></label>
+        <label class="check"><input type="checkbox" data-req="tesB"><span>Tesina de Bachillerato<small>Modalidad de graduación</small></span></label>
+        <label class="check"><input type="checkbox" data-req="tesL"><span>Tesina de Licenciatura<small>Modalidad de graduación</small></span></label>
+      </div>
+      <div class="panel">
+        <h3>Cuatrimestre actual</h3>
+        <p class="muted" id="cur-info"></p>
+        <button class="btn" id="close-term">Cerrar cuatrimestre y matricular lo recomendado</button>
+        <button class="btn ghost" id="reset">Restablecer datos originales</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    El plan no publica requisitos (prerrequisitos) oficiales, así que las cadenas fueron inferidas según la secuencia del plan de estudios
+    (p. ej. Principios de Derecho Privado I → II → Obligaciones I → II → Derechos Reales). Si alguno no coincide con la Dirección de Carrera,
+    editá el campo <code>req</code> en el arreglo <code>PLAN</code> de este archivo. Tus cambios se guardan en este navegador.
+  </footer>
+</main>
+
+<div class="veil" id="veil" hidden><div class="sheet" id="sheet"></div></div>
+
+<script>
+/* ============ PLAN DE ESTUDIOS ============
+   lv: B1..B9 = cuatrimestre del Bachillerato, L1..L3 = Licenciatura
+   req: requisitos (inferidos, editables). Licenciatura requiere Bachillerato completo. */
+const PLAN = [
+  {id:'HGD', code:'DE-255', lv:'B1', name:'Historia General del Derecho', req:[]},
+  {id:'IED', code:'DE-110', lv:'B1', name:'Introducción al Estudio del Derecho', req:[]},
+  {id:'TE',  code:'DE-120', lv:'B1', name:'Teoría del Estado', req:[]},
+  {id:'PTI', code:'AN-304', lv:'B1', name:'Principios y Técnicas de Investigación', req:[]},
+  {id:'EH',  lv:'B1', name:'Electiva Humanidades', req:[], note:'Opciones: Competencias de Comunicación, Inteligencia Emocional, Desarrollo de Emprendedores, Habilidades de Liderazgo, Pensamiento Crítico o Pensamiento Creativo.'},
+
+  {id:'PDP1', code:'DE-130', lv:'B2', name:'Principios de Derecho Privado I', req:['IED']},
+  {id:'FIL',  lv:'B2', name:'Filosofía del Derecho', req:['IED']},
+  {id:'DPU',  lv:'B2', name:'Derecho Público', req:['TE']},
+  {id:'TGP',  lv:'B2', name:'Teoría General del Proceso', req:['IED']},
+  {id:'SOC',  lv:'B2', name:'Sociología', req:[]},
+
+  {id:'PDP2', lv:'B3', name:'Principios de Derecho Privado II', req:['PDP1']},
+  {id:'PG',   lv:'B3', name:'Derecho Penal General', req:['IED']},
+  {id:'CON1', lv:'B3', name:'Derecho Constitucional I', req:['DPU']},
+  {id:'PC1',  lv:'B3', name:'Derecho Procesal Civil I', req:['TGP']},
+
+  {id:'OB1',  lv:'B4', name:'Obligaciones I', req:['PDP2']},
+  {id:'PE1',  lv:'B4', name:'Derecho Penal Especial I', req:['PG']},
+  {id:'CON2', lv:'B4', name:'Derecho Constitucional II', req:['CON1'], note:'En el folleto aparece como "Derecho Constitucional I" por segunda vez; se asume que es la continuación (II).'},
+  {id:'PC2',  lv:'B4', name:'Derecho Procesal Civil II', req:['PC1']},
+
+  {id:'OB2',  lv:'B5', name:'Obligaciones II', req:['OB1']},
+  {id:'PE2',  lv:'B5', name:'Derecho Penal Especial II', req:['PE1']},
+  {id:'LAB1', lv:'B5', name:'Derecho Laboral I', req:['PDP2']},
+  {id:'COM1', lv:'B5', name:'Derecho Comercial I', req:['OB1']},
+
+  {id:'RE',   lv:'B6', name:'Derechos Reales', req:['OB2']},
+  {id:'PP1',  lv:'B6', name:'Derecho Procesal Penal I', req:['PE2','TGP']},
+  {id:'LAB2', lv:'B6', name:'Derecho Laboral II', req:['LAB1']},
+  {id:'COM2', lv:'B6', name:'Derecho Comercial II', req:['COM1']},
+
+  {id:'ADM',  lv:'B7', name:'Derecho Administrativo', req:['CON2']},
+  {id:'PP2',  lv:'B7', name:'Derecho Procesal Penal II', req:['PP1']},
+  {id:'PLAB', lv:'B7', name:'Derecho Procesal Laboral', req:['LAB2','PC2']},
+  {id:'CP1',  lv:'B7', name:'Contratación Privada I', req:['OB2']},
+
+  {id:'CAD',  lv:'B8', name:'Contratación Administrativa', req:['ADM']},
+  {id:'FAP',  lv:'B8', name:'Fundamentos de Administración de Proyectos', req:[]},
+  {id:'FAM',  lv:'B8', name:'Derecho de Familia', req:['PDP2']},
+  {id:'CP2',  lv:'B8', name:'Contratación Privada II', req:['CP1']},
+
+  {id:'PADM', lv:'B9', name:'Derecho Procesal Administrativo', req:['ADM','PC2']},
+  {id:'AGR',  lv:'B9', name:'Derecho Agroambiental', req:['RE']},
+  {id:'PFAM', lv:'B9', name:'Derecho Procesal de Familia', req:['FAM','PC2']},
+  {id:'OPT',  lv:'B9', name:'Optativa Derecho', req:['PP1'], note:'Opciones: Técnicas de Argumentación Jurídica, Derecho Deportivo o Derecho Bancario y Financiero.'},
+
+  {id:'PAGR', lv:'L1', name:'Derecho Procesal Agrario', req:[]},
+  {id:'RAC',  lv:'L1', name:'Resolución Alterna de Conflictos y Derecho Colaborativo', req:[]},
+  {id:'DPT',  lv:'L1', name:'Derecho Presupuestario y Tributario', req:[]},
+  {id:'PSUC', lv:'L1', name:'Procesos Sucesorios', req:[]},
+  {id:'DDHH', lv:'L1', name:'Derechos Humanos', req:[]},
+
+  {id:'DINT', lv:'L2', name:'Derecho Internacional', req:[]},
+  {id:'DINF', lv:'L2', name:'Derecho Informático', req:[]},
+  {id:'NOT',  lv:'L2', name:'Principios de Derecho Notarial', req:[]},
+  {id:'CONC', lv:'L2', name:'Concursos', req:[]},
+
+  {id:'DCI',  lv:'L3', name:'Derecho Comercial Internacional', req:[]},
+  {id:'SAJ',  lv:'L3', name:'Seminario de Actualización Jurídica', req:[]},
+  {id:'PJ',   lv:'L3', name:'Práctica Jurídica', req:[]},
+  {id:'OPT1', lv:'L3', name:'Optativa 1', req:[], note:'Opciones: Criminología y Medicina Legal o Resolución Alterna de Conflictos.'},
+];
+
+/* ============ TU ESTADO BASE ============
+   Cuatrimestres: ordinal = año*3 + (0 Primer, 1 Segundo, 2 Tercer) */
+const T = (y,i) => y*3+i;
+const BASE = {
+  cur: T(2026,2),           // Tercer Cuatrimestre 2026
+  strat: 'critica',
+  req: {tcu:false, eng:false, tesB:false, tesL:false},
+  c: {
+    HGD:  {s:'A', g:97,  t:T(2026,1)},
+    IED:  {s:'A', g:100, t:T(2026,1)},
+    TE:   {s:'C', t:T(2026,2)},
+    PDP1: {s:'C', t:T(2026,2)},
+    PTI:  {s:'C', t:T(2026,2)},
+  }
+};
+const PER_TERM = 2;
+const KEY = 'ruta-derecho-fidelitas-v1';
+
+/* ============ Utilidades ============ */
+const NAMES = ['Primer','Segundo','Tercer'], ROM = ['I','II','III','IV','V','VI','VII','VIII','IX'];
+const lab = o => `${NAMES[o%3]} Cuatrimestre ${Math.floor(o/3)}`;
+const short = o => `${ROM[o%3]}-${Math.floor(o/3)}`;
+const lvName = lv => lv[0]==='B' ? `${ROM[+lv.slice(1)-1]} Cuatrimestre` : `Licenciatura · ${ROM[+lv.slice(1)-1]} Cuatrimestre`;
+const lvShort = lv => lv[0]==='B' ? `Plan ${ROM[+lv.slice(1)-1]}` : `Lic ${ROM[+lv.slice(1)-1]}`;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+function load(){
+  try{ const r = localStorage.getItem(KEY); if(r){ const o = JSON.parse(r); if(o && o.c) return Object.assign(clone(BASE), o); } }catch(e){}
+  return clone(BASE);
+}
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} }
+
+let st = load();
+
+/* ============ Grafo ============ */
+const BY = {}, DEPS = {}, DEPTH = {};
+PLAN.forEach(c => { c.lic = c.lv[0]==='L'; c.n = +c.lv.slice(1) + (c.lic?9:0); BY[c.id]=c; DEPS[c.id]=[]; });
+PLAN.forEach(c => c.req.forEach(r => DEPS[r].push(c.id)));
+function depth(id){ if(DEPTH[id]) return DEPTH[id]; return DEPTH[id] = 1 + Math.max(0, ...DEPS[id].map(depth)); }
+PLAN.forEach(c => depth(c.id));
+const BACH = PLAN.filter(c => !c.lic);
+const status = id => (st.c[id] && st.c[id].s) || 'P';
+
+function anc(id, s=new Set()){ BY[id].req.forEach(r => { if(!s.has(r)){ s.add(r); anc(r,s); } }); return s; }
+function desc(id, s=new Set()){ DEPS[id].forEach(r => { if(!s.has(r)){ s.add(r); desc(r,s); } }); return s; }
+
+function cmp(a,b){
+  const ua = DEPS[a.id].length, ub = DEPS[b.id].length;
+  if(st.strat === 'plan') return (a.n-b.n) || (DEPTH[b.id]-DEPTH[a.id]) || (ub-ua);
+  return (DEPTH[b.id]-DEPTH[a.id]) || (ub-ua) || (a.n-b.n);
+}
+
+/* Simula la ruta de 2 en 2, asumiendo que aprobás lo que estás cursando */
+let SIM = [], PROJ = {}, FIRST_AVAIL = [];
+function simulate(){
+  const done = new Set(PLAN.filter(c => status(c.id) !== 'P').map(c => c.id));
+  let rem = PLAN.filter(c => !done.has(c.id));
+  const terms = []; let o = st.cur + 1, guard = 0; FIRST_AVAIL = [];
+  while(rem.length && guard++ < 80){
+    const bachOk = BACH.every(c => done.has(c.id));
+    const av = rem.filter(c => c.lic ? bachOk : c.req.every(r => done.has(r))).sort(cmp);
+    if(!av.length) break;
+    if(!terms.length) FIRST_AVAIL = av;
+    const pick = av.slice(0, PER_TERM);
+    terms.push({o, ids: pick.map(c => c.id)});
+    pick.forEach(c => done.add(c.id));
+    rem = rem.filter(c => !done.has(c.id)); o++;
+  }
+  SIM = terms; PROJ = {};
+  terms.forEach(t => t.ids.forEach(id => PROJ[id] = t.o));
+}
+
+/* ============ Render ============ */
+let view = 'ruta', sel = null, EDGES = [];
+
+function renderStats(){
+  const nA = PLAN.filter(c => status(c.id)==='A').length;
+  const nC = PLAN.filter(c => status(c.id)==='C').length;
+  const g = PLAN.map(c => st.c[c.id]).filter(x => x && x.s==='A' && x.g!=null && x.g!=='').map(x => +x.g);
+  const avg = g.length ? (g.reduce((a,b)=>a+b,0)/g.length) : null;
+  const endOf = list => {
+    let m = -1;
+    for(const c of list){ const s = status(c.id); const v = s==='P' ? PROJ[c.id] : s==='C' ? st.cur : -1; if(v===undefined) return null; m = Math.max(m,v); }
+    return m;
+  };
+  const bEnd = endOf(BACH), lEnd = endOf(PLAN);
+  const fmt = o => o===null ? '—' : o<0 ? '¡Listo!' : short(o);
+  $('#stats').innerHTML = `
+    <div class="stat"><div class="k">Aprobadas</div><div class="v">${nA}<span style="font-size:20px;color:var(--muted)">/${PLAN.length}</span></div><div class="s">${nC} en curso</div></div>
+    <div class="stat"><div class="k">Promedio</div><div class="v">${avg===null?'—':avg.toFixed(1)}</div><div class="s">${g.length} nota${g.length===1?'':'s'} registrada${g.length===1?'':'s'}</div></div>
+    <div class="stat"><div class="k">Bachillerato</div><div class="v">${fmt(bEnd)}</div><div class="s">${bEnd>=0&&bEnd!==null ? (bEnd-st.cur)+' cuatrimestres más' : 'Plan completo'}</div></div>
+    <div class="stat"><div class="k">Licenciatura</div><div class="v">${fmt(lEnd)}</div><div class="s">${lEnd>=0&&lEnd!==null ? (lEnd-st.cur)+' cuatrimestres más' : 'Plan completo'}</div></div>`;
+  const bar = (label, list) => {
+    const a = list.filter(c => status(c.id)==='A').length, cu = list.filter(c => status(c.id)==='C').length, t = list.length;
+    return `<div><div class="bar-h"><span>${label}</span><span>${a} aprobadas · ${cu} en curso · ${Math.round(a/t*100)}%</span></div>
+      <div class="bar"><i class="a" style="width:${a/t*100}%"></i><i class="c" style="width:${cu/t*100}%"></i></div></div>`;
+  };
+  $('#bars').innerHTML = bar('Bachillerato · 38 materias', BACH) + bar('Licenciatura · 13 materias', PLAN.filter(c=>c.lic));
+}
+
+function renderNext(){
+  document.querySelectorAll('#strat button').forEach(b => b.classList.toggle('on', b.dataset.strat===st.strat));
+  const nx = SIM[0];
+  if(!nx){ $('#next-title').textContent = '¡Plan completo!'; $('#next').innerHTML = ''; $('#alts').innerHTML=''; return; }
+  $('#next-title').innerHTML = `Matrícula · <em>${lab(nx.o)}</em>`;
+  $('#next').innerHTML = nx.ids.map((id,i) => {
+    const c = BY[id];
+    const unl = DEPS[id].filter(d => status(d)==='P').map(d => BY[d].name);
+    const why = [];
+    if(c.lic) why.push('Bachillerato completo: arranca la Licenciatura');
+    else if(DEPTH[id] > 1) why.push(`Encabeza una cadena de ${DEPTH[id]} cuatrimestres seguidos`);
+    if(unl.length) why.push(`Desbloquea: ${unl.join(', ')}`);
+    if(!unl.length && !c.lic) why.push('Sin dependientes: completa el plan sin frenar la ruta');
+    if(BY[id].n < Math.min(...PLAN.filter(p=>status(p.id)==='P').map(p=>p.n)) + 1) why.push('Pertenece a tu bloque más atrasado del plan');
+    return `<button class="pick" data-id="${id}">
+      <div class="n">MATERIA ${i+1} DE ${PER_TERM}</div>
+      <h3>${esc(c.name)}</h3>
+      <div class="lv">${c.code?c.code+' · ':''}${lvName(c.lv)}</div>
+      <ul class="why">${why.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></button>`;
+  }).join('');
+  const alts = FIRST_AVAIL.filter(c => !nx.ids.includes(c.id)).slice(0,5);
+  $('#alts').innerHTML = alts.length ? `También podrías llevar:<div class="chips">${alts.map(c=>chip(c.id)).join('')}</div>` : '';
+}
+
+function chip(id){ return `<button class="chip s-${status(id)}" data-id="${id}">${esc(BY[id].name)}</button>`; }
+
+function card(id, k){
+  const c = BY[id], s = status(id), x = st.c[id] || {};
+  let cls = `card s-${s}`;
+  if(s==='P' && SIM[0] && SIM[0].ids.includes(id)) cls += ' is-next';
+  let badge;
+  if(s==='A') badge = x.g!=null && x.g!=='' ? `✓ Nota ${x.g}` : '✓ Aprobada';
+  else if(s==='C') badge = 'En curso';
+  else if(cls.includes('is-next')) badge = 'Matricular ahora';
+  else if(view==='plan') badge = PROJ[id]!=null ? `Proyectada ${short(PROJ[id])}` : 'Pendiente';
+  else badge = DEPS[id].length ? `Desbloquea ${DEPS[id].length}` : 'Pendiente';
+  const meta = (c.code ? c.code+' · ' : '') + (view==='ruta' ? lvShort(c.lv) : '');
+  return `<button class="${cls}" data-id="${id}"><span class="code">${meta||'&nbsp;'}</span><span class="nm">${esc(c.name)}</span><span class="badge">${badge}</span></button>`;
+}
+
+const CAP = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/><path d="M22 9v6"/></svg>`;
+
+function buildCols(){
+  const cols = []; EDGES = [];
+  if(view==='plan'){
+    ['B1','B2','B3','B4','B5','B6','B7','B8','B9','L1','L2','L3'].forEach(lv => {
+      cols.push({k:'plan', title: lv[0]==='B'?`${ROM[+lv.slice(1)-1]} Cuatrimestre`:`Lic · ${ROM[+lv.slice(1)-1]}`, sub: lv[0]==='B'?'Bachillerato':'Licenciatura', ids: PLAN.filter(c=>c.lv===lv).map(c=>c.id)});
+    });
+  } else {
+    const byT = {};
+    PLAN.filter(c => status(c.id)==='A').forEach(c => { const t = st.c[c.id].t ?? 0; (byT[t] = byT[t] || []).push(c.id); });
+    Object.keys(byT).map(Number).sort((a,b)=>a-b).forEach(t => cols.push({k:'done', title: t ? lab(t) : 'Anteriores', sub:'Aprobadas', ids: byT[t]}));
+    const cur = PLAN.filter(c => status(c.id)==='C').map(c => c.id);
+    if(cur.length) cols.push({k:'cur', title: lab(st.cur), sub:'En curso', ids: cur});
+    let bachShown = false;
+    const bachEnd = Math.max(st.cur, ...BACH.filter(c=>status(c.id)==='P').map(c=>PROJ[c.id] ?? -1));
+    SIM.forEach((t,i) => {
+      if(!bachShown && t.ids.every(id => BY[id].lic)){ cols.push({k:'grad', g:'B', title:'Bachillerato', sub: short(bachEnd)}); bachShown = true; }
+      cols.push({k: i===0?'next':'proj', title: lab(t.o), sub: i===0 ? 'Próxima matrícula' : 'Proyección', ids: t.ids});
+    });
+    if(!bachShown) cols.push({k:'grad', g:'B', title:'Bachillerato', sub: short(bachEnd)});
+    if(SIM.length) cols.push({k:'grad', g:'L', title:'Licenciatura', sub: short(SIM[SIM.length-1].o)});
+  }
+  // aristas
+  const shown = new Set(cols.flatMap(c => c.ids || []));
+  shown.forEach(id => BY[id].req.forEach(r => { if(shown.has(r)) EDGES.push([r,id]); }));
+  if(view==='ruta'){
+    cols.forEach((c,i) => {
+      if(c.k!=='grad') return;
+      const prev = cols[i-1], next = cols[i+1];
+      if(prev && prev.ids) prev.ids.forEach(id => EDGES.push([id, '__'+c.g]));
+      if(next && next.ids) next.ids.forEach(id => EDGES.push(['__'+c.g, id]));
+    });
+  }
+  return cols;
+}
+
+function renderBracket(){
+  document.querySelectorAll('#views button').forEach(b => b.classList.toggle('on', b.dataset.view===view));
+  const cols = buildCols();
+  const chain = sel ? new Set([sel, ...anc(sel), ...desc(sel)]) : null;
+  const html = cols.map(c => {
+    if(c.k==='grad') return `<div class="col k-grad"><div class="col-h">&nbsp;</div><div class="col-s">&nbsp;</div><div class="col-b"><div class="grad" data-node="__${c.g}">${CAP}<b>${c.title}</b><small>Graduación · ${c.sub}</small></div></div></div>`;
+    return `<div class="col k-${c.k}"><div class="col-h">${c.title}</div><div class="col-s">${c.sub}</div><div class="col-b">${c.ids.map(id => card(id, c.k)).join('')}</div></div>`;
+  }).join('');
+  const br = $('#bracket');
+  br.innerHTML = `<svg id="edges"></svg>` + html;
+  br.classList.toggle('has-sel', !!sel);
+  if(chain) br.querySelectorAll('.card').forEach(el => { el.classList.toggle('in', chain.has(el.dataset.id)); el.classList.toggle('sel', el.dataset.id===sel); });
+  document.fonts && document.fonts.ready.then(drawEdges);
+  requestAnimationFrame(drawEdges);
+}
+
+function drawEdges(){
+  const br = $('#bracket'), svg = $('#edges'); if(!svg) return;
+  const W = br.scrollWidth, H = br.scrollHeight, base = br.getBoundingClientRect();
+  svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const node = id => id.startsWith('__') ? br.querySelector(`[data-node="${id}"]`) : br.querySelector(`.card[data-id="${id}"]`);
+  const chain = sel ? new Set([sel, ...anc(sel), ...desc(sel)]) : null;
+  svg.innerHTML = EDGES.map(([a,b]) => {
+    const ea = node(a), eb = node(b); if(!ea || !eb) return '';
+    const ra = ea.getBoundingClientRect(), rb = eb.getBoundingClientRect();
+    const x1 = ra.right-base.left, y1 = ra.top+ra.height/2-base.top, x2 = rb.left-base.left, y2 = rb.top+rb.height/2-base.top;
+    if(x2 <= x1) return '';
+    const mx = x1 + Math.min(40, (x2-x1)/2);
+    const d = `M${x1},${y1} C${mx},${y1} ${x2-Math.min(40,(x2-x1)/2)},${y2} ${x2},${y2}`;
+    const done = !a.startsWith('__') && status(a)==='A';
+    const hl = chain && chain.has(a) && chain.has(b);
+    return `<path class="e${done?' done':''}${hl?' hl':''}" d="${d}"/>`;
+  }).join('');
+}
+
+function renderSide(){
+  document.querySelectorAll('[data-req]').forEach(i => i.checked = !!(st.req||{})[i.dataset.req]);
+  const cur = PLAN.filter(c => status(c.id)==='C').map(c => c.name);
+  $('#cur-info').innerHTML = `<b>${lab(st.cur)}</b> · ${cur.length ? 'Cursando: '+cur.map(esc).join(', ') : 'Sin materias en curso'}.<br>Al cerrarlo, lo que estás cursando pasa a aprobado y se matriculan las ${PER_TERM} recomendadas para ${lab(st.cur+1)}.`;
+}
+
+function renderAll(){ simulate(); renderStats(); renderNext(); renderBracket(); renderSide(); }
+
+/* ============ Hoja de detalle ============ */
+function openSheet(id){
+  const c = BY[id], s = status(id), x = st.c[id] || {};
+  const missing = c.lic ? BACH.filter(b => status(b.id)!=='A') : c.req.filter(r => status(r)==='P').map(r => BY[r]);
+  let info = s==='A' ? `Aprobada${x.t ? ' en '+lab(x.t) : ''}.` : s==='C' ? `Cursando en ${lab(st.cur)}.` : PROJ[id]!=null ? `Proyectada para <b>${lab(PROJ[id])}</b>.` : 'Sin proyección.';
+  if(!c.lic && DEPTH[id]>1) info += ` Encabeza una cadena de ${DEPTH[id]} cuatrimestres.`;
+  const unl = DEPS[id];
+  $('#sheet').innerHTML = `
+    <div class="sh-head"><div><div class="sh-lv">${lvName(c.lv)}${c.code?' · '+c.code:''}</div><h3>${esc(c.name)}</h3></div><button class="x" data-close aria-label="Cerrar">✕</button></div>
+    ${c.note ? `<p class="note">${esc(c.note)}</p>` : ''}
+    <div class="seg">${[['P','Pendiente'],['C','En curso'],['A','Aprobada']].map(([k,l]) => `<button data-set="${k}" class="${s===k?'on':''}">${l}</button>`).join('')}</div>
+    ${s==='A' ? `<label class="grade">Nota <input type="number" min="0" max="100" inputmode="numeric" value="${x.g ?? ''}" data-grade></label>` : ''}
+    ${s!=='A' && missing.length && !c.lic ? `<div class="warn">⚠ Requisitos sin aprobar: ${missing.map(m=>esc(m.name)).join(', ')}</div>` : ''}
+    <div class="info">${info}</div>
+    <h4>Requisitos</h4>
+    <div class="chips">${c.lic ? '<span class="chip">Bachillerato completo</span>' : c.req.length ? c.req.map(chip).join('') : '<span class="muted">Sin requisitos</span>'}</div>
+    <h4>Desbloquea</h4>
+    <div class="chips">${unl.length ? unl.map(chip).join('') : '<span class="muted">Ninguna materia depende de esta</span>'}</div>`;
+  $('#sheet').dataset.id = id;
+  $('#veil').hidden = false;
+}
+
+function setState(id, k){
+  if(k==='P') delete st.c[id];
+  else { const p = st.c[id] || {}; st.c[id] = {s:k, g: k==='A' ? (p.g ?? null) : null, t: k==='C' ? st.cur : (p.t ?? st.cur)}; }
+  save(); renderAll(); openSheet(id);
+}
+
+function select(id){ sel = (sel===id) ? null : id; renderBracket(); }
+
+/* ============ Eventos ============ */
+document.addEventListener('click', e => {
+  const t = e.target;
+  const sb = t.closest('[data-strat]'); if(sb){ st.strat = sb.dataset.strat; save(); renderAll(); return; }
+  const vb = t.closest('[data-view]'); if(vb){ view = vb.dataset.view; renderBracket(); scrollToNow(); return; }
+  if(t.closest('[data-close]') || t.id==='veil'){ $('#veil').hidden = true; return; }
+  const set = t.closest('[data-set]'); if(set){ setState($('#sheet').dataset.id, set.dataset.set); return; }
+  const cd = t.closest('[data-id]');
+  if(cd){
+    const id = cd.dataset.id;
+    if(cd.classList.contains('card')){ sel = id; renderBracket(); }
+    else if(!t.closest('#sheet')) { sel = id; renderBracket(); }
+    openSheet(id); return;
+  }
+  if(t.closest('#bracket') && sel){ sel = null; renderBracket(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if(t.matches('[data-grade]')){ const id = $('#sheet').dataset.id; const v = t.value===''?null:Math.max(0,Math.min(100,+t.value)); st.c[id].g = v; save(); renderStats(); renderBracket(); }
+  if(t.matches('[data-req]')){ st.req = st.req || {}; st.req[t.dataset.req] = t.checked; save(); }
+});
+document.addEventListener('keydown', e => { if(e.key==='Escape') $('#veil').hidden = true; });
+
+$('#close-term').onclick = () => {
+  const nx = SIM[0];
+  if(!confirm(`¿Cerrar ${lab(st.cur)}?\n\nLo que estás cursando pasa a "Aprobada" y se matricula para ${lab(st.cur+1)}:\n${nx ? nx.ids.map(i=>'• '+BY[i].name).join('\n') : '(nada pendiente)'}\n\nLuego podés poner las notas tocando cada materia.`)) return;
+  PLAN.forEach(c => { if(status(c.id)==='C') st.c[c.id] = {s:'A', g:null, t:st.cur}; });
+  simulate();
+  const pick = SIM[0] ? SIM[0].ids : [];
+  st.cur++;
+  pick.forEach(id => st.c[id] = {s:'C', g:null, t:st.cur});
+  sel = null; save(); renderAll(); scrollToNow();
+};
+$('#reset').onclick = () => {
+  if(!confirm('¿Volver a los datos originales? Se borran los cambios guardados en este navegador.')) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  st = clone(BASE); sel = null; renderAll(); scrollToNow();
+};
+
+function scrollToNow(){
+  requestAnimationFrame(() => {
+    const sc = $('#scroller'), target = view==='ruta' ? ($('.col.k-cur') || $('.col.k-next')) : null;
+    sc.scrollLeft = target ? Math.max(0, target.offsetLeft - 24) : 0;
+  });
+}
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(drawEdges, 120); });
+
+renderAll(); scrollToNow();
+</script>
+</body>
+</html>
